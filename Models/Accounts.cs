@@ -14,6 +14,7 @@ namespace RESTful_Test_App.Models
         }
         [Key]
         public Guid UserId { get; set; }
+        [ConcurrencyCheck]
         public decimal Balance { get; set; }
         public virtual ICollection<Transactions> Transactions { get; set; }
     }
