@@ -60,7 +60,7 @@ namespace RESTful_Test_App.Services
                     _context.SaveChanges();
                     return Ok(newTransaction);
                 }
-                return Problem("Снимаемая сумма транзакциии должна быть меньше или равна остатку на счете пользователя");
+                return NoContent();
             }
             return NotFound();
         }
