@@ -15,7 +15,15 @@ namespace RESTful_Test_App.Services
         {
             _context = context;
         }
-        void UpdateAccount(Guid UserId, decimal Amount)
+        /// <summary>
+        /// Проверка изменения баланса пользователю
+        /// </summary>
+        /// <param name="UserId">Идентификатор пользователя</param>
+        /// <param name="Amount">Кол-во денег для снятия/пополнения</param>
+        /// <returns>Возвращает true, если изменить баланс пользователя удалось
+        /// Возвращает false, если кол-во списываемых средств превышает текущий остаток счета </returns>
+
+        bool UpdateAccount(Guid UserId, decimal Amount)
         {
             var newUser = _context.Accounts.Find(UserId);
             var Saved = false;
@@ -23,16 +31,22 @@ namespace RESTful_Test_App.Services
             {
                 try
                 {
-                    newUser.Balance += Amount;
-                    _context.Accounts.Update(newUser);
-                    _context.SaveChanges();
-                    Saved = true;
+                    if (newUser.Balance + Amount >= 0)
+                    {
+                        newUser.Balance += Amount;
+                        _context.Accounts.Update(newUser);
+                        _context.SaveChanges();
+                        Saved = true;
+                        break;
+                    }
+                    return false;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     newUser = _context.Accounts.Find(UserId);
                 }
             }
+            return true;
         }
         public IActionResult History(Guid UserId, DateTime From, DateTime To)
         {
@@ -46,16 +60,15 @@ namespace RESTful_Test_App.Services
             var temp = _context.Accounts.Find(UserId);
             if (temp != null)
             {
-                if (temp.Balance + Amount >= 0)
+                var newTransaction = new Transactions
                 {
-                    var newTransaction = new Transactions
-                    {
-                        UserId = UserId,
-                        Time = TransactionTime,
-                        Amount = Amount,
-                        Notes = Notes
-                    };
-                    UpdateAccount(UserId, Amount);
+                    UserId = UserId,
+                    Time = TransactionTime,
+                    Amount = Amount,
+                    Notes = Notes
+                };
+                if (UpdateAccount(UserId, Amount))
+                {
                     _context.Transactions.Add(newTransaction);
                     _context.SaveChanges();
                     return Ok(newTransaction);
