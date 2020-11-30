@@ -30,7 +30,7 @@ namespace RESTful_Test_App.Controllers
             _statistic = new StatisticBLL(_context);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Balance/{id}")]
         public IActionResult GetBalance(Guid Id)
         {
             return _account.Balance(Id);
@@ -40,17 +40,17 @@ namespace RESTful_Test_App.Controllers
         {
             return _account.GetResult();
         }
-        [HttpPut()]
+        [HttpGet("History/")]
         public IActionResult History(Guid UserId, DateTime From, DateTime To)
         {
             return _transaction.History(UserId, From, To);
         }
-        [HttpPost()]
+        [HttpPost("NewTransaction/")]
         public IActionResult AddTransaction(Guid UserId, DateTime TransactionTime, decimal Amount, string Notes)
         {
             return _transaction.AddTransaction(UserId, TransactionTime, Amount, Notes);
         }
-        [HttpPut("{date}")]
+        [HttpGet("Statistic/")]
         public IActionResult Statistic(DateTime Date)
         {
             return _statistic.Statistic(Date);
