@@ -3,6 +3,15 @@
 
 Тестировал API с помощью Postman
 
+cURL скрипты:
+curl --location --request POST 'http://localhost:7000/api/Bank/NewTransaction?UserId=d783b1d3-27eb-4106-9013-ae62533860e9&TransactionTime=2020-11-27&Amount=1000&Notes=Зачисление 1000 гривен'
+
+curl --location --request GET 'http://localhost:7000/api/Bank/Balance/d783b1d3-27eb-4106-9013-ae62533860e9'
+
+curl --location --request GET 'http://localhost:7000/api/Bank/History/?UserId=d783b1d3-27eb-4106-9013-ae62533860e9&From=2020-10-10&To=2021-10-10'
+
+curl --location --request GET 'http://localhost:7000/api/Bank/Statistic/?Date=2020-11-27'
+
 Ниже указаны следующие тесты:
 POSTRequest1 - Попытка снятия средст, которые превышают остаток на счете
 http://localhost:7000/api/Bank?UserId=d783b1d3-27eb-4106-9013-ae62533860e9&TransactionTime=2001-09-11&Amount=-1000000&Notes=Cнятие 1000000 гривен
