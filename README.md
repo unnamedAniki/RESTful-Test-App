@@ -8,13 +8,7 @@ POSTRequest1 - Попытка снятия средст, которые прев
 http://localhost:7000/api/Bank?UserId=d783b1d3-27eb-4106-9013-ae62533860e9&TransactionTime=2001-09-11&Amount=-1000000&Notes=Cнятие 1000000 гривен
 
 POSTResults1
-{
-    "type": "https://tools.ietf.org/html/rfc7231#section-6.6.1",
-    "title": "An error occured while processing your request.",
-    "status": 500,
-    "detail": "Снимаемая сумма транзакциии должна быть меньше или равна остатку на счете пользователя",
-    "traceId": "|30db7833-4ef26a752852fcca."
-}
+{null } - поскольку переместиил бизнес-логику в отдельный класс, http-content стал недоступен 
 
 POSTRequest2 - Добавление транзакции пользователю под указанным Id в указанное время
 http://localhost:7000/api/Bank/?Amount=-1000&TransactionTime=2019-12-25&Notes=Снятие 1000 гривен&UserId=881035c3-9ac2-4c77-a943-7dcd26a5da30
